@@ -96,10 +96,10 @@ namespace EasyTwoJuetengBackend.Persistence.AuditTrailRepositories
             _context.Add(auditTrail);
             await _context.SaveChangesAsync();
         }
-        private CurrentUserReadDto AuthenticatedUserDetails =>
+        public CurrentUserReadDto AuthenticatedUserDetails =>
              new CurrentUserReadDto()
             {
-                Id = Convert.ToInt32(AES.Decrypt(User.FindFirst("AdministratorId").Value)),
+                Id = Convert.ToInt32(AES.Decrypt(User.FindFirst("UserId").Value)),
                 Role = User.FindFirst(ClaimTypes.Role).Value,
                 UserInCharge = AES.Decrypt(User.FindFirst("LoggedInUser").Value)
             };

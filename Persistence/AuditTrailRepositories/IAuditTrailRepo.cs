@@ -14,5 +14,6 @@ namespace EasyTwoJuetengBackend.Persistence.AuditTrailRepositories
         SystemModule Module { get; set; }
         ClaimsPrincipal User { get; set; }
         Task SaveSuccessAuthTrail(AuditTrailAuthSuccessSaveDto model);
+        CurrentUserReadDto AuthenticatedUserDetails { get; }
     }
 }

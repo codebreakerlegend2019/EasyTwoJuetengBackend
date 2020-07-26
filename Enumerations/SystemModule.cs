@@ -10,6 +10,7 @@ namespace EasyTwoJuetengBackend.Enumerations
         Cities,
         WorkLocations,
         Employees,
-        User
+        User,
+        Auth
     }
 }

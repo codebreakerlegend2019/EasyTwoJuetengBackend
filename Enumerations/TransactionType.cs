@@ -9,6 +9,8 @@ namespace EasyTwoJuetengBackend.Enumerations
     {
         ADD,
         EDIT,
-        DELETE
+        DELETE,
+        LOGINTOSYSTEM,
+        CHANGEPASSWORD
     }
 }

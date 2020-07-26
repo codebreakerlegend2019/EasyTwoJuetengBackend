@@ -4,6 +4,20 @@
         <name>EasyTwoJuetengBackend</name>
     </assembly>
     <members>
+        <member name="M:EasyTwoJuetengBackend.Controllers.AuthController.Login(EasyTwoJuetengBackend.Dtos.AuthDto.LoginCredentialsSaveDto)">
+            <summary>
+            Use to Login to WebApp/Agent App To Access Data
+            </summary>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.AuthController.ChangePassword(EasyTwoJuetengBackend.Dtos.AuthDto.ChangePasswordSaveDto)">
+            <summary>
+            Use to Change Password for Both Admin / Agent Role
+            </summary>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
         <member name="M:EasyTwoJuetengBackend.Controllers.CityController.Create(EasyTwoJuetengBackend.Dtos.CityDto.CitySaveDto)">
             <summary>
             Creates a City for Work Location

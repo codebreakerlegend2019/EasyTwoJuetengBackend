@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using EasyTwoJuetengBackend.Dtos.AuthDto;
 using EasyTwoJuetengBackend.Dtos.UserDto;
+using EasyTwoJuetengBackend.Helpers;
 using EasyTwoJuetengBackend.Models;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,8 @@ namespace EasyTwoJuetengBackend.MapperProfile
             CreateMap<User, UserSaveDto>();
             CreateMap<User, UserReadDto>()
                 .ForMember(x => x.Role, opt => opt.MapFrom(x => x.UserRole.Name));
+            CreateMap<ChangePasswordSaveDto, User>()
+                .ForMember(x => x.Password, opt => opt.MapFrom(x => AES.Encrypt(x.NewPassword)));
 
         }
     }
