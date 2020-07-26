@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EasyTwoJuetengBackend</name>
+    </assembly>
+    <members>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CityController.Create(EasyTwoJuetengBackend.Dtos.CityDto.CitySaveDto)">
+            <summary>
+            Creates a City for Work Location
+            </summary>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CityController.GetAll">
+            <summary>
+            GetAll Cities 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CityController.GetById(System.Int32)">
+            <summary>
+            GetById City
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CityController.Update(System.Int32,EasyTwoJuetengBackend.Dtos.CityDto.CitySaveDto)">
+            <summary>
+            Update City 
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.EmployeeController.Create(EasyTwoJuetengBackend.Dtos.EmployeeDto.EmployeeSaveDto)">
+            <summary>
+            Creates a Employee for Easy Two Jueteng
+            </summary>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.EmployeeController.GetAll">
+            <summary>
+            GetAll Employees 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.EmployeeController.GetById(System.Int32)">
+            <summary>
+            GetById Employee
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.EmployeeController.Update(System.Int32,EasyTwoJuetengBackend.Dtos.EmployeeDto.EmployeeSaveDto)">
+            <summary>
+            Update Employee 
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.EmployeeController.Delete(System.Int32)">
+            <summary>
+            Delete Employee
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.UserController.Create(EasyTwoJuetengBackend.Dtos.UserDto.UserSaveDto)">
+            <summary>
+            Creates a User to Access the System
+            </summary>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.UserController.GetAll">
+            <summary>
+            GetAll Users 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.UserController.GetById(System.Int32)">
+            <summary>
+            GetById User
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.UserController.Update(System.Int32,EasyTwoJuetengBackend.Dtos.UserDto.UserUpdateDto)">
+            <summary>
+            Update User 
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.UserController.Delete(System.Int32)">
+            <summary>
+            Delete User
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.UserRoleController.GetAll">
+            <summary>
+            GetAll UserRoles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.WorkLocationController.Create(EasyTwoJuetengBackend.Dtos.WorkLocationDto.WorkLocationSaveDto)">
+            <summary>
+            Creates a Work Location for Employee
+            </summary>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.WorkLocationController.GetAll">
+            <summary>
+            GetAll Work Locations 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.WorkLocationController.GetById(System.Int32)">
+            <summary>
+            GetById Work Location
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.WorkLocationController.Update(System.Int32,EasyTwoJuetengBackend.Dtos.WorkLocationDto.WorkLocationSaveDto)">
+            <summary>
+            Update City 
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
