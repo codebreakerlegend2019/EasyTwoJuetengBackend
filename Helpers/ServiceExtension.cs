@@ -105,6 +105,8 @@ namespace EasyTwoJuetengBackend.Helpers
             {
                 options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
 
+                options.AddPolicy("Agent", policy => policy.RequireRole("Agent"));
+
                 options.AddPolicy("Both", policy => policy.RequireRole("Admin","Agent"));
             });
             return services;

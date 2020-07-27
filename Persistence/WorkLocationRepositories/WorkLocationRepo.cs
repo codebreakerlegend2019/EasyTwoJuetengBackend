@@ -2,6 +2,7 @@
 using EasyTwoJuetengBackend.DataContexts;
 using EasyTwoJuetengBackend.Dtos.ValidatorDto;
 using EasyTwoJuetengBackend.Dtos.WorkLocationDto;
+using EasyTwoJuetengBackend.Helpers;
 using EasyTwoJuetengBackend.Interfaces;
 using EasyTwoJuetengBackend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace EasyTwoJuetengBackend.Persistence.WorkLocationRepositories
 
         public void Create(WorkLocation model)
         {
+            InputHelper.Trimmer(model);
             _context.Add(model);
         }
 
@@ -56,6 +58,7 @@ namespace EasyTwoJuetengBackend.Persistence.WorkLocationRepositories
 
         public void Update(object newUpdate, WorkLocation modelToBeUpdated)
         {
+            InputHelper.Trimmer(newUpdate);
             _mapper.Map(newUpdate, modelToBeUpdated);
         }
 

@@ -2,6 +2,7 @@
 using EasyTwoJuetengBackend.DataContexts;
 using EasyTwoJuetengBackend.Dtos.CityDto;
 using EasyTwoJuetengBackend.Dtos.ValidatorDto;
+using EasyTwoJuetengBackend.Helpers;
 using EasyTwoJuetengBackend.Interfaces;
 using EasyTwoJuetengBackend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace EasyTwoJuetengBackend.Persistence.CityRepositories
 
         public void Create(City model)
         {
+            InputHelper.Trimmer(model);
             _context.Add(model);
         }
 
@@ -53,6 +55,7 @@ namespace EasyTwoJuetengBackend.Persistence.CityRepositories
 
         public void Update(object newUpdate, City modelToBeUpdated)
         {
+            InputHelper.Trimmer(newUpdate);
             _mapper.Map(newUpdate, modelToBeUpdated);
         }
 

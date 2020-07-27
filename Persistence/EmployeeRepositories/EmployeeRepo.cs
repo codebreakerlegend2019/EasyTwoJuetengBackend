@@ -2,6 +2,7 @@
 using EasyTwoJuetengBackend.DataContexts;
 using EasyTwoJuetengBackend.Dtos.EmployeeDto;
 using EasyTwoJuetengBackend.Dtos.ValidatorDto;
+using EasyTwoJuetengBackend.Helpers;
 using EasyTwoJuetengBackend.Interfaces;
 using EasyTwoJuetengBackend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace EasyTwoJuetengBackend.Persistence.EmployeeRepositories
 
         public void Create(Employee model)
         {
+            InputHelper.Trimmer(model);
             model.DateTimeCreated = DateTime.Now;
             _context.Add(model);
         }
@@ -60,6 +62,7 @@ namespace EasyTwoJuetengBackend.Persistence.EmployeeRepositories
 
         public void Update(object newUpdate, Employee modelToBeUpdated)
         {
+            InputHelper.Trimmer(newUpdate);
             _mapper.Map(newUpdate, modelToBeUpdated);
         }
 

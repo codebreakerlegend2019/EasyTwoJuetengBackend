@@ -29,6 +29,7 @@ namespace EasyTwoJuetengBackend.Persistence.UserRepositories
 
         public void Create(User model)
         {
+            InputHelper.Trimmer(model);
             model.Password = AES.Encrypt("_defaultPassword");
             model.DateTimeCreated = DateTime.Now;
             _context.Add(model);
@@ -67,6 +68,7 @@ namespace EasyTwoJuetengBackend.Persistence.UserRepositories
 
         public void Update(object newUpdate, User modelToBeUpdated)
         {
+            InputHelper.Trimmer(newUpdate);
             _mapper.Map(newUpdate, modelToBeUpdated);
         }
         

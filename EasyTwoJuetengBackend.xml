@@ -46,6 +46,41 @@
             <param name="resourceSave">The id of the value you wish to get.</param>
             <returns></returns>
         </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CustomerController.Create(EasyTwoJuetengBackend.Dtos.CustomerDto.CustomerSaveDto)">
+            <summary>
+            Creates a Customer for Easy Two Jueteng
+            </summary>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CustomerController.GetAll">
+            <summary>
+            GetAll Customers 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CustomerController.GetById(System.Int32)">
+            <summary>
+            GetById Customer
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CustomerController.Update(System.Int32,EasyTwoJuetengBackend.Dtos.CustomerDto.CustomerSaveDto)">
+            <summary>
+            Update Customer 
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <param name="resourceSave">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CustomerController.Delete(System.Int32)">
+            <summary>
+            Delete Customer
+            </summary>
+            <param name="id">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
         <member name="M:EasyTwoJuetengBackend.Controllers.EmployeeController.Create(EasyTwoJuetengBackend.Dtos.EmployeeDto.EmployeeSaveDto)">
             <summary>
             Creates a Employee for Easy Two Jueteng

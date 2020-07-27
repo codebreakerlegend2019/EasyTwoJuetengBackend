@@ -7,6 +7,7 @@ namespace EasyTwoJuetengBackend.Dtos.AuthDto
 {
     public class LoginDetailsReadDto
     {
+        public string Nickname { get; set; }
         public string Role { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }

@@ -11,6 +11,7 @@ namespace EasyTwoJuetengBackend.Enumerations
         WorkLocations,
         Employees,
         User,
-        Auth
+        Auth,
+        Customers
     }
 }

@@ -77,6 +77,7 @@ namespace EasyTwoJuetengBackend.Controllers
 
             var result = new LoginResultReadDto()
             {
+                Nickname = user.Nickname,
                 LogginedUser = $"{user.UserName}",
                 Token = token,
                 FullName = user.UserFullName,

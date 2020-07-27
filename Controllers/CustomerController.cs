@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EasyTwoJuetengBackend.Dtos.AuditTrailDto;
-using EasyTwoJuetengBackend.Dtos.CityDto;
+using EasyTwoJuetengBackend.Dtos.CustomerDto;
 using EasyTwoJuetengBackend.Enumerations;
 using EasyTwoJuetengBackend.Helpers;
 using EasyTwoJuetengBackend.Interfaces;
@@ -17,35 +17,35 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyTwoJuetengBackend.Controllers
 {
-
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Both")]
     [Route("api/[controller]")]
     [ApiController]
-    public class CityController : ControllerBase
+    public class CustomerController : ControllerBase
     {
-        private readonly ICrudPattern<City> _crudPattern;
+        private readonly ICrudPattern<Customer> _crudPattern;
         private readonly IMapper _mapper;
-        private readonly IValidator<City, CitySaveDto> _validator;
+        private readonly IValidator<Customer, CustomerSaveDto> _validator;
         private readonly IAuditTrailRepo _auditTrailRepo;
 
-        public CityController(ICrudPattern<City> crudPattern,
+        public CustomerController(ICrudPattern<Customer> crudPattern,
             IMapper mapper,
-            IValidator<City,CitySaveDto> validator,
+            IValidator<Customer,CustomerSaveDto> validator,
             IAuditTrailRepo auditTrailRepo)
         {
             _crudPattern = crudPattern;
             _mapper = mapper;
             _validator = validator;
             _auditTrailRepo = auditTrailRepo;
-            _auditTrailRepo.Module = SystemModule.Cities;
+            _auditTrailRepo.Module = SystemModule.Customers;
         }
+
         /// <summary>
-        /// Creates a City for Work Location
+        /// Creates a Customer for Easy Two Jueteng
         /// </summary>
         /// <param name="resourceSave">The id of the value you wish to get.</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CitySaveDto resourceSave)
+        public async Task<IActionResult> Create([FromBody] CustomerSaveDto resourceSave)
         {
             _auditTrailRepo.User = User;
             var activity = Validator.GenerateActivity(resourceSave, TransactionType.ADD);
@@ -60,9 +60,9 @@ namespace EasyTwoJuetengBackend.Controllers
                 });
                 return BadRequest(validator.Message);
             }
-            var city = _mapper.Map<City>(resourceSave);
+            var customer = _mapper.Map<Customer>(resourceSave);
 
-            _crudPattern.Create(city);
+            _crudPattern.Create(customer);
 
             if (!await _crudPattern.SaveChanges())
                 return BadRequest("Nothing has been Saved!");
@@ -78,47 +78,49 @@ namespace EasyTwoJuetengBackend.Controllers
 
 
         /// <summary>
-        /// GetAll Cities 
+        /// GetAll Customers 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var cities = await _crudPattern.GetAll();
-            if (cities.Count == 0)
+            var customers = await _crudPattern.GetAll();
+            if (customers.Count == 0)
                 return NoContent();
-            return Ok(cities);
+            var result = _mapper.Map<List<CustomerReadDto>>(customers);
+            return Ok(result);
         }
 
         /// <summary>
-        /// GetById City
+        /// GetById Customer
         /// </summary>
         /// <param name="id">The id of the value you wish to get.</param>
         /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var city = await _crudPattern.Get(id);
-            if (city == null)
+            var customer = await _crudPattern.Get(id);
+            if (customer == null)
                 return NotFound();
-            return Ok(city);
+            var result = _mapper.Map<CustomerReadDto>(customer);
+            return Ok(result);
         }
 
         /// <summary>
-        /// Update City 
+        /// Update Customer 
         /// </summary>
         /// <param name="id">The id of the value you wish to get.</param>
         /// <param name="resourceSave">The id of the value you wish to get.</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CitySaveDto resourceSave)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CustomerSaveDto resourceSave)
         {
             _auditTrailRepo.User = User;
-            var city = await _crudPattern.Get(id);
-            if (city == null)
+            var customer = await _crudPattern.Get(id);
+            if (customer == null)
                 return NotFound();
-            var activity = Validator.GetDifferences(city, _mapper.Map<City>(resourceSave));
-            var validator = await _validator.Validate(city, resourceSave);
+            var activity = Validator.GetDifferences(customer, _mapper.Map<Customer>(resourceSave));
+            var validator = await _validator.Validate(customer, resourceSave);
             if (validator.HasError)
             {
 
@@ -132,7 +134,7 @@ namespace EasyTwoJuetengBackend.Controllers
                 return BadRequest(validator.Message);
             }
 
-            _crudPattern.Update(resourceSave, city);
+            _crudPattern.Update(resourceSave, customer);
 
             if (!await _crudPattern.SaveChanges())
                 return BadRequest("Nothing has been Saved!");
@@ -143,38 +145,35 @@ namespace EasyTwoJuetengBackend.Controllers
                 Action = TransactionType.EDIT,
                 Activity = activity
             });
-            return Ok(city);
+            return Ok(customer);
         }
 
 
-        ///// <summary>
-        ///// Delete City
-        ///// </summary>
-        ///// <param name="id">The id of the value you wish to get.</param>
-        ///// <returns></returns>
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete([FromRoute] int id)
-        //{
-        //    _auditTrailRepo.User = User;
-        //    var city = await _crudPattern.Get(id);
-        //    if (city == null)
-        //        return NotFound();
-        //    var activity = $"Delete City with Name: {city.Name}, Id: {city.Id}";
+        /// <summary>
+        /// Delete Customer
+        /// </summary>
+        /// <param name="id">The id of the value you wish to get.</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            _auditTrailRepo.User = User;
+            var employee = await _crudPattern.Get(id);
+            if (employee == null)
+                return NotFound();
+            var activity = Validator.GenerateActivity(employee, TransactionType.DELETE);
+            _crudPattern.Delete(employee);
 
-        //    _crudPattern.Delete(city);
+            if (!await _crudPattern.SaveChanges())
+                return BadRequest("Nothing has been Saved!");
 
-        //    if (!await _crudPattern.SaveChanges())
-        //        return BadRequest("Nothing has been Saved!");
+            await _auditTrailRepo.SaveSuccessTrail(new AuditTrailSuccessSaveDto()
+            {
+                Action = TransactionType.DELETE,
+                Activity = activity,
+            });
 
-
-        //    await _auditTrailRepo.SaveSuccessTrail(new AuditTrailSuccessSaveDto()
-        //    {
-        //        Action = TransactionType.DELETE,
-        //        Activity = activity,
-        //    });
-
-        //    return Ok(activity);
-        //}
-
+            return Ok(activity);
+        }
     }
 }

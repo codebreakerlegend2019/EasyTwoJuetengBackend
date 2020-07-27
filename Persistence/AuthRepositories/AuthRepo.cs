@@ -29,7 +29,7 @@ namespace EasyTwoJuetengBackend.Persistence.AuthRepositories
         }
         public async Task<LoginDetailsReadDto> LoginChecker(LoginCredentialsSaveDto model)
         {
-            var user = await AuthGPSAdministrator(model);
+            var user = await AuthEasyTwo(model);
             if (user == null)
                 return new LoginDetailsReadDto()
                 {
@@ -37,6 +37,7 @@ namespace EasyTwoJuetengBackend.Persistence.AuthRepositories
                 };
             return new LoginDetailsReadDto()
             {
+                Nickname = user.Employee.NickName,
                 IsSuccess = true,
                 Role = user.UserRole.Name,
                 UserName = user.UserName,
@@ -59,14 +60,14 @@ namespace EasyTwoJuetengBackend.Persistence.AuthRepositories
                 return new ErrorValidator("Password Fail to Change!!");
             return new  ErrorValidator();
         }
-        private async Task<User> AuthGPSAdministrator(LoginCredentialsSaveDto model)
+        private async Task<User> AuthEasyTwo(LoginCredentialsSaveDto model)
         {
             var encrptyedPassword = AES.Encrypt(model.Password);
             return await _context.Users
                 .Include(x => x.UserRole)
                 .Include(x => x.Employee)
                 .FirstOrDefaultAsync
-                (x => x.UserName.ToLower().Trim() == model.Username.ToLower()
+                (x => x.UserName.ToLower().Trim() == model.Username.Trim().ToLower()
                 && x.Password == encrptyedPassword);
         }
     }
