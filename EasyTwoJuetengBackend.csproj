@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UserSecretsId>2eecdcf4-0103-483f-9313-463b3be9f100</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Joshua D. Siuagan\source\repos\EasyTwoJuetengBackend\EasyTwoJuetengBackend.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\Joshua Siuagan\Documents\EasyTwoBackend\EasyTwoJuetengBackend.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
