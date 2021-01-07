@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
+using Microsoft.Extensions.Configuration;
 
 namespace EasyTwoJuetengBackend.Controllers
 {
@@ -22,21 +25,54 @@ namespace EasyTwoJuetengBackend.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        #region fields
         private readonly ICrudPattern<Customer> _crudPattern;
         private readonly IMapper _mapper;
         private readonly IValidator<Customer, CustomerSaveDto> _validator;
         private readonly IAuditTrailRepo _auditTrailRepo;
-
+        private readonly IConfiguration _configuration;
+        private readonly CloudStorageAccount _cloudStorage;
+        #endregion
         public CustomerController(ICrudPattern<Customer> crudPattern,
             IMapper mapper,
             IValidator<Customer,CustomerSaveDto> validator,
-            IAuditTrailRepo auditTrailRepo)
+            IAuditTrailRepo auditTrailRepo,
+            IConfiguration configuration)
         {
             _crudPattern = crudPattern;
             _mapper = mapper;
             _validator = validator;
             _auditTrailRepo = auditTrailRepo;
+            _configuration = configuration;
             _auditTrailRepo.Module = SystemModule.Customers;
+            var azureBlobConnectionString = _configuration.GetSection("AzureBlobStorage:EasyTwoBlobStorage").Value;
+            _cloudStorage = CloudStorageAccount.Parse(azureBlobConnectionString);
+        }
+
+
+        /// <summary>
+        /// Creates a Customer for Easy Two Jueteng
+        /// </summary>
+        /// <param name="formFile">The id of the value you wish to get.</param>
+        /// <returns></returns>
+        [HttpPost("upload/profile/picture")]
+        public async Task<IActionResult> UploadCustomerImage(IFormFile formFile)
+        {
+            var cloudBlobClient = _cloudStorage.CreateCloudBlobClient();
+            var cloudBlobContainer = cloudBlobClient.GetContainerReference("easytwojuetengstorage");
+
+            if(await cloudBlobContainer.CreateIfNotExistsAsync())
+                await cloudBlobContainer.SetPermissionsAsync(new
+                    BlobContainerPermissions
+                { PublicAccess = BlobContainerPublicAccessType.Off });
+
+            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(formFile.FileName);
+            cloudBlockBlob.Properties.ContentType = formFile.ContentType;
+
+            await cloudBlockBlob.UploadFromStreamAsync(formFile.OpenReadStream());
+
+            return StatusCode(201);
+
         }
 
         /// <summary>

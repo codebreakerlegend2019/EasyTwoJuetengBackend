@@ -46,6 +46,13 @@
             <param name="resourceSave">The id of the value you wish to get.</param>
             <returns></returns>
         </member>
+        <member name="M:EasyTwoJuetengBackend.Controllers.CustomerController.UploadCustomerImage(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Creates a Customer for Easy Two Jueteng
+            </summary>
+            <param name="formFile">The id of the value you wish to get.</param>
+            <returns></returns>
+        </member>
         <member name="M:EasyTwoJuetengBackend.Controllers.CustomerController.Create(EasyTwoJuetengBackend.Dtos.CustomerDto.CustomerSaveDto)">
             <summary>
             Creates a Customer for Easy Two Jueteng
