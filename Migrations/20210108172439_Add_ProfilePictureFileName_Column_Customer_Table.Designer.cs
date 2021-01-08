@@ -4,14 +4,16 @@ using EasyTwoJuetengBackend.DataContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyTwoJuetengBackend.Migrations
 {
     [DbContext(typeof(EasyTwoJuetengContext))]
-    partial class EasyTwoJuetengContextModelSnapshot : ModelSnapshot
+    [Migration("20210108172439_Add_ProfilePictureFileName_Column_Customer_Table")]
+    partial class Add_ProfilePictureFileName_Column_Customer_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

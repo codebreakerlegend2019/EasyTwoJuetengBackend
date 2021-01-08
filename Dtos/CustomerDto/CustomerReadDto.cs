@@ -14,5 +14,6 @@ namespace EasyTwoJuetengBackend.Dtos.CustomerDto
         public string CellphoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public string FullName { get; set; }
+        public string ProfilePictureFileName { get; set; }
     }
 }

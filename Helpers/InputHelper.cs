@@ -17,7 +17,7 @@ namespace EasyTwoJuetengBackend.Helpers
 
                 if (propertyName == "LazyLoader")
                     continue;
-                if (propOld.PropertyType == typeof(string))
+                if (propOld.PropertyType == typeof(string) && value!=null)
                     value.ToString().Trim();
             }
         }

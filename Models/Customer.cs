@@ -14,5 +14,6 @@ namespace EasyTwoJuetengBackend.Models
         public string CellphoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public DateTime DateTimeCreated { get; set; }
+        public string ProfilePictureFileName { get; set; }
     }
 }

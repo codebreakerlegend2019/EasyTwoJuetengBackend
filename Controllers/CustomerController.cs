@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BrunoZell.ModelBinding;
 using EasyTwoJuetengBackend.Dtos.AuditTrailDto;
 using EasyTwoJuetengBackend.Dtos.CustomerDto;
 using EasyTwoJuetengBackend.Enumerations;
@@ -10,6 +12,7 @@ using EasyTwoJuetengBackend.Helpers;
 using EasyTwoJuetengBackend.Interfaces;
 using EasyTwoJuetengBackend.Models;
 using EasyTwoJuetengBackend.Persistence.AuditTrailRepositories;
+using EasyTwoJuetengBackend.Persistence.BlobStorageRepositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,57 +34,35 @@ namespace EasyTwoJuetengBackend.Controllers
         private readonly IValidator<Customer, CustomerSaveDto> _validator;
         private readonly IAuditTrailRepo _auditTrailRepo;
         private readonly IConfiguration _configuration;
+        private readonly IBlobStorageRepo _blobStorageRepo;
         private readonly CloudStorageAccount _cloudStorage;
         #endregion
         public CustomerController(ICrudPattern<Customer> crudPattern,
             IMapper mapper,
             IValidator<Customer,CustomerSaveDto> validator,
             IAuditTrailRepo auditTrailRepo,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IBlobStorageRepo blobStorageRepo)
         {
             _crudPattern = crudPattern;
             _mapper = mapper;
             _validator = validator;
             _auditTrailRepo = auditTrailRepo;
             _configuration = configuration;
+            this._blobStorageRepo = blobStorageRepo;
             _auditTrailRepo.Module = SystemModule.Customers;
             var azureBlobConnectionString = _configuration.GetSection("AzureBlobStorage:EasyTwoBlobStorage").Value;
             _cloudStorage = CloudStorageAccount.Parse(azureBlobConnectionString);
         }
 
-
         /// <summary>
         /// Creates a Customer for Easy Two Jueteng
         /// </summary>
-        /// <param name="formFile">The id of the value you wish to get.</param>
-        /// <returns></returns>
-        [HttpPost("upload/profile/picture")]
-        public async Task<IActionResult> UploadCustomerImage(IFormFile formFile)
-        {
-            var cloudBlobClient = _cloudStorage.CreateCloudBlobClient();
-            var cloudBlobContainer = cloudBlobClient.GetContainerReference("easytwojuetengstorage");
-
-            if(await cloudBlobContainer.CreateIfNotExistsAsync())
-                await cloudBlobContainer.SetPermissionsAsync(new
-                    BlobContainerPermissions
-                { PublicAccess = BlobContainerPublicAccessType.Off });
-
-            var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(formFile.FileName);
-            cloudBlockBlob.Properties.ContentType = formFile.ContentType;
-
-            await cloudBlockBlob.UploadFromStreamAsync(formFile.OpenReadStream());
-
-            return StatusCode(201);
-
-        }
-
-        /// <summary>
-        /// Creates a Customer for Easy Two Jueteng
-        /// </summary>
+        /// <param name="profilePictureFile">The id of the value you wish to get.</param>
         /// <param name="resourceSave">The id of the value you wish to get.</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CustomerSaveDto resourceSave)
+        public async Task<IActionResult> Create([ModelBinder(BinderType = typeof(JsonModelBinder))][FromBody] CustomerSaveDto resourceSave, IFormFile profilePictureFile)
         {
             _auditTrailRepo.User = User;
             var activity = Validator.GenerateActivity(resourceSave, TransactionType.ADD);
@@ -99,9 +80,13 @@ namespace EasyTwoJuetengBackend.Controllers
             var customer = _mapper.Map<Customer>(resourceSave);
 
             _crudPattern.Create(customer);
+            var newFileName = $"{Guid.NewGuid()}{Path.GetExtension(profilePictureFile.FileName)}";
+            customer.ProfilePictureFileName = newFileName;
 
             if (!await _crudPattern.SaveChanges())
                 return BadRequest("Nothing has been Saved!");
+
+            await _blobStorageRepo.UploadFile(profilePictureFile, newFileName);
 
 
             await _auditTrailRepo.SaveSuccessTrail(new AuditTrailSuccessSaveDto()
@@ -112,6 +97,20 @@ namespace EasyTwoJuetengBackend.Controllers
             return StatusCode(201);
         }
 
+        /// <summary>
+        /// GetAll Customers 
+        /// <param name="fileName">The id of the value you wish to get.</param>
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("profilepicture/image/{fileName}")]
+        public async Task<IActionResult> GetProfileImage([FromRoute] string fileName)
+        {
+            var profileImage = await _blobStorageRepo.DownloadFile(fileName);
+            if (profileImage == null)
+                return NotFound();
+            return profileImage;
+        }
 
         /// <summary>
         /// GetAll Customers 
